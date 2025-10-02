@@ -99,6 +99,18 @@ def _get_fw_configs() -> List[triton.Config]:  # noqa: C901
                                     num_warps=num_warps,
                                 )
                             )
+        # Ensure required constexpr meta-parameters exist for the kernel signature.
+        # These are added automatically in the CUDA path below, but were missing for HIP,
+        # which causes: TypeError: dynamic_func() missing required positional arguments.
+        for cfg in configs:
+            # TLX is NVIDIA Hopper-specific; keep disabled on HIP.
+            cfg.kwargs.setdefault("USE_TLX", False)
+            # Single-buffer default (matches non-TLX CUDA path).
+            cfg.kwargs.setdefault("NUM_BUFFERS", 1)
+            # One MMA warp group with a single warp per group by default.
+            cfg.kwargs.setdefault("NUM_MMA_WARPS_PER_GROUP", 1)
+            cfg.kwargs.setdefault("NUM_MMA_GROUPS", 1)
+        return configs
     else:
         configs = [
             triton.Config(
