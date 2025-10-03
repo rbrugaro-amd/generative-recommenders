@@ -3,8 +3,9 @@ https://ontrack-internal.amd.com/browse/SWDEV-549530?jql=text%20~%20%22fbgemm_gp
 
 
 git clone git@github.com:pytorch/FBGEMM.git
+(commit 5beb3e6e0ef5ec830461ce163c012864677647a9 (HEAD -> main, origin/main, origin/HEAD))
 cd FBGEMM
-root@smci355-ccs-aus-n14-09:/FBGEMM# git apply --3way fbgemm_rocm7.patch 
+root@xxx:/FBGEMM# git apply --3way fbgemm_rocm7.patch 
 Applied patch to 'cmake/modules/CppLibrary.cmake' cleanly.
 Applied patch to 'cmake/modules/GpuCppLibrary.cmake' cleanly.
 Applied patch to 'fbgemm_gpu/fbgemm_gpu/tbe/bench/tbe_data_config_bench_helper.py' cleanly.
