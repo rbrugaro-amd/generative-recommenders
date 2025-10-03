@@ -1,0 +1,33 @@
+Get patch from:
+https://ontrack-internal.amd.com/browse/SWDEV-549530?jql=text%20~%20%22fbgemm_gpu_py.so%3A%20undefined%20symbol%3A%20_ZN3tbb6detail2r117deallocate_memoryEPv%22
+
+
+git clone git@github.com:pytorch/FBGEMM.git
+cd FBGEMM
+root@smci355-ccs-aus-n14-09:/FBGEMM# git apply --3way fbgemm_rocm7.patch 
+Applied patch to 'cmake/modules/CppLibrary.cmake' cleanly.
+Applied patch to 'cmake/modules/GpuCppLibrary.cmake' cleanly.
+Applied patch to 'fbgemm_gpu/fbgemm_gpu/tbe/bench/tbe_data_config_bench_helper.py' cleanly.
+Applied patch to 'fbgemm_gpu/include/fbgemm_gpu/utils/kernel_launcher.cuh' cleanly.
+
+Installation steps reference (From <https://rocm.docs.amd.com/en/latest/how-to/rocm-for-ai/inference-optimization/model-acceleration-libraries.html#fbgemm-and-fbgemm-gpu> )
+pip install -r requirements.txt
+
+# Set the package name depending on the build variant
+export package_name=fbgemm_gpu_rocm
+# Set the Python version tag.  It should follow the convention `py<major><minor>`,
+# for example, Python 3.12 --> py312
+export python_tag=py312
+# Determine the processor architecture
+export ARCH=$(uname -m)
+# Set the Python platform name for the Linux case
+export python_plat_name="manylinux2014_${ARCH}"
+
+export BUILD_ROCM_VERSION=7.0
+# Build and install the library into the Conda environment
+python setup.py install \
+   --build-variant=rocm \
+   -DHIP_ROOT_DIR="${ROCM_PATH}" \
+   -DCMAKE_C_FLAGS="-DTORCH_USE_HIP_DSA" \
+   -DCMAKE_CXX_FLAGS="-DTORCH_USE_HIP_DSA"
+

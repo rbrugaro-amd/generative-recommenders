@@ -22,7 +22,7 @@ setup(
     python_requires=">=3.10",
     install_requires=[
         "torch>=2.6.0",
-        "fbgemm_gpu>=1.1.0",
+        #"fbgemm_gpu>=1.1.0",
         "torchrec>=1.1.0",
         "gin_config>=0.5.0",
         "pandas>=2.2.0",
