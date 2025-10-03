@@ -372,7 +372,7 @@ def expand_dataset(
         f"Creating reduced rating matrix (size {reduced_num_rows}, {reduced_num_cols})"
     )
     reduced_matrix = graph_reduce((u, s, v), reduced_num_rows, reduced_num_cols)
-    norm_reduced_matrix = normalize(reduced_matrix)
+    norm_reduced_matrix = normalize(sparse.csr_matrix(reduced_matrix))
     (_, s_reduce, _) = linalg.svds(
         norm_reduced_matrix, k=k - 1, maxiter=None, return_singular_vectors=True
     )
